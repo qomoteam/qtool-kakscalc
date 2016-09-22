@@ -1,7 +1,7 @@
 /************************************************************
 * Copyright (c) 2005, BGI of Chinese Academy of Sciences
 * All rights reserved.
- 
+
 * Filename: KaKs.h
 * Abstract: Declaration of KAKS class including several methods.
 
@@ -21,27 +21,27 @@
 #include "YN00.h"
 #include "MYN.h"
 #include "MSMA.h"
-
+#include <vector>
 using namespace std;
 
 /* KAKS class */
 class KAKS: public Base {
-	
-public:	
+
+public:
 	KAKS();
 	~KAKS();
 
 	/* Main function to call kaks's methods */
-	bool Run(int argc, const char* argv[]);		
+	bool Run(int argc, const char* argv[]);
 	/* Read and Calculate seq, called in "Run" main function */
 	bool ReadCalculateSeq(string filename);
-	
+
 	/* Initialize class, ready for running */
 	int Initialize();
 	/* Unitialize class, for unloading */
 	int Uninitialize();
 
-protected:		
+protected:
 	/* Use several methods to calculate ka/ks */
 	bool calculateKaKs();
 	/* Show help information */
@@ -60,14 +60,16 @@ protected:
 	/* Modified LPB93 */
 	void start_MLPB93();
 	/* GY94 */
-	void start_GY94();	
+	void start_GY94();
 	/* YN00 */
 	void start_YN00();
 	/* MYN */
-	void start_MYN();	
+	void start_MYN();
 	/* Model Selection and Model Averaging */
 	void start_MSMA();
-	
+
+	void SplitString(const std::string& s, std::vector<std::string>& v, const std::string& c);
+
 
 	/* Get GCC of entire sequences and of three codon positions */
 	void getGCContent(string str);
@@ -84,20 +86,20 @@ public:
 	/* Methods' name and reference */
 	vector<string> method_name;
 	vector<string> method_ref;
-	
+
 	/* Parameters' title in outputing file */
 	vector<string> titleInfo;
 
 	/* Results for windows parser that shows results on ListCtrl */
 	string result4Win;
-	
+
 	/* File name for output */
 	string output_filename;
 	/* Sequence file name */
 	string seq_filename;
 
 	/* Flag for whether to run NG86, MLWL85, MLPB93, GY94, YN00, MYN, MS/A=model selection/averaging */
-	bool none, ng86, lwl85, lpb93, yn00, mlwl85, mlpb93, gy94, myn, ms, ma;	
+	bool none, ng86, lwl85, lpb93, yn00, mlwl85, mlpb93, gy94, myn, ms, ma;
 	/* Number of compared pairwise sequences */
 	unsigned long number;	//Maybe too many
 
@@ -105,8 +107,8 @@ protected:
 	/* File name for detailed results for model selection */
 	string detail_filename;
 	/* Detailed results */
-	string details; 
-	
+	string details;
+
 private:
 	/* The temporary results for write into file */
 	string result;
@@ -116,9 +118,6 @@ private:
 
 	/* A pair of sequence */
 	string seq1, seq2;
-}; 
+};
 
 #endif
-
-
-

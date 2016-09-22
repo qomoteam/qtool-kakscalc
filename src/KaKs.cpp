@@ -1,7 +1,7 @@
 /************************************************************
 * Copyright (C) 2005, BGI of Chinese Academy of Sciences
 * All rights reserved.
- 
+
 * Filename: KaKs.cpp
 * Abstract: Declaration of KAKS class including several methods.
 
@@ -15,12 +15,12 @@
 
 KAKS::KAKS() {
 
-	string items[] = {"Sequence", "Method", "Ka", "Ks", "Ka/Ks", 
+	string items[] = {"Sequence", "Method", "Ka", "Ks", "Ka/Ks",
 		  			  "P-Value(Fisher)", "Length", "S-Sites", "N-Sites", "Fold-Sites(0:2:4)",
-					  "Substitutions", "S-Substitutions", "N-Substitutions", "Fold-S-Substitutions(0:2:4)", "Fold-N-Substitutions(0:2:4)", 
+					  "Substitutions", "S-Substitutions", "N-Substitutions", "Fold-S-Substitutions(0:2:4)", "Fold-N-Substitutions(0:2:4)",
 					  "Divergence-Time", "Substitution-Rate-Ratio(rTC:rAG:rTA:rCG:rTG:rCA/rCA)", "GC(1:2:3)", "ML-Score", "AICc",
 					  "Akaike-Weight", "Model"};  //21 outputing items
-	
+
 	//Format of outputing parameters
 	int i;
 	for (i=0; i<sizeof(items)/sizeof(string); i++) titleInfo.push_back(items[i]);
@@ -36,43 +36,43 @@ KAKS::KAKS() {
 	method_name.push_back("MYN");  method_ref.push_back("Zhang Z., Jun L. and Jun Y. (2006)");
 	method_name.push_back("MS");   method_ref.push_back("Model Selection according to the AICc");
 	method_name.push_back("MA");   method_ref.push_back("Model Averaging on a set of candidate models");
-	
+
 	method_ref.clear();
 
-	method_ref.push_back("Nei, M. and Gojobori, T. (1986) Mol. Biol. Evol., 3, 418-426.");                         
-	method_ref.push_back("Li, W.H., Wu, C.I. and Luo, C.C. (1985) Mol. Biol. Evol., 2, 150-174.");                
-	method_ref.push_back("Li, W.H. (1993) J. Mol. Evol., 36, 96-99.    Pamilo, P. and Bianchi, N.O. (1993) Mol. Biol. Evol., 10, 271-281."); 
-	method_ref.push_back("Tzeng, Y.H., Pan, R. and Li, W.H. (2004) Mol. Biol. Evol., 21, 2290-2298.");                
-	method_ref.push_back("Tzeng, Y.H., Pan, R. and Li, W.H. (2004) Mol. Biol. Evol., 21, 2290-2298.");                
+	method_ref.push_back("Nei, M. and Gojobori, T. (1986) Mol. Biol. Evol., 3, 418-426.");
+	method_ref.push_back("Li, W.H., Wu, C.I. and Luo, C.C. (1985) Mol. Biol. Evol., 2, 150-174.");
+	method_ref.push_back("Li, W.H. (1993) J. Mol. Evol., 36, 96-99.    Pamilo, P. and Bianchi, N.O. (1993) Mol. Biol. Evol., 10, 271-281.");
+	method_ref.push_back("Tzeng, Y.H., Pan, R. and Li, W.H. (2004) Mol. Biol. Evol., 21, 2290-2298.");
+	method_ref.push_back("Tzeng, Y.H., Pan, R. and Li, W.H. (2004) Mol. Biol. Evol., 21, 2290-2298.");
 	method_ref.push_back("Goldman, N. and Yang, Z. (1994) Mol. Biol. Evol., 11, 725-736.");
 	method_ref.push_back("Yang, Z. and Nielsen, R. (2000) Mol. Biol. Evol., 17, 32-43.");
 	method_ref.push_back("Zhang, Z., Li, J. and Yu, J. (2006) BMC Evolutionary Biology, 6, 44.");
 	method_ref.push_back("Model Selection according to the AICc");
 	method_ref.push_back("Model Averaging on a set of candidate models");
 
-	Initialize();	
+	Initialize();
 
 }
 
 
 KAKS::~KAKS() {
-	
+
 	Uninitialize();
 
 	//Free memory
 	titleInfo.clear();
 	method_name.clear();
-	method_ref.clear();	
+	method_ref.clear();
 }
 
 int KAKS::Initialize() {
 
-	none = ng86 = lpb93 = lwl85 = mlwl85 = mlpb93 = yn00 = gy94 = myn = ms = ma = false;	
+	none = ng86 = lpb93 = lwl85 = mlwl85 = mlpb93 = yn00 = gy94 = myn = ms = ma = false;
 	result4Win = result = seq_name = seq1 = seq2 = "";
 	seq_filename = output_filename = detail_filename = "";
 	result = details = "";
 	genetic_code = 1;
-	number = 0;	
+	number = 0;
 
 	return 1;
 }
@@ -84,7 +84,7 @@ int KAKS::Uninitialize() {
     }
 	// if (os.is_open()) {
 	// 	os.close();
-	// }	
+	// }
 
 	return 1;
 }
@@ -113,12 +113,12 @@ void KAKS::getGCContent(string str) {
 * Output: Read sequences, check sequences' validity
 		  and calculate Ka and Ks.
 * Return Value: True if succeed, otherwise false.
- 
+
 * Note: Using axt file for low memory
 *****************************************************/
 bool KAKS::ReadCalculateSeq(string filename) {
 
-	bool flag = true;	
+	bool flag = true;
 
 	try	{
 
@@ -136,9 +136,9 @@ bool KAKS::ReadCalculateSeq(string filename) {
         }
 
 		showParaInfo();	//Show information on display
-		
+
 		// result = getTitleInfo();
-		
+
 		//Output stream
 		if (output_filename!="" && output_filename.length()>0) {
 			ofs.open(output_filename.c_str());
@@ -150,15 +150,15 @@ bool KAKS::ReadCalculateSeq(string filename) {
 		string temp="", name="", str="";
 
 		while (getline(*is, temp, '\n'))	{
-			
-			name = temp;			
-			
+
+			name = temp;
+
 			getline(*is, temp, '\n');
-			while (temp!="") {				
+			while (temp!="") {
 				str += temp;
 				getline(*is, temp, '\n');
 			}
-			
+
 			//Get GCC at three codon positions
 			getGCContent(str);
 			//Check str's validility and calculate
@@ -166,20 +166,20 @@ bool KAKS::ReadCalculateSeq(string filename) {
 				cerr<<++number<<" "<<name<<"\t";
 				if(!calculateKaKs()) throw 1;	//calculate Ka&Ks using selected method(s)
 				cerr<<"[OK]"<<endl;
-			}			
+			}
 			name = str = "";
 		}
 		// is.close();
-		// is.clear();	
+		// is.clear();
         is->clear();
         if(ifs){
             ifs.close();
         }
 	}
-	catch (...) {		
+	catch (...) {
 		flag = false;
 	}
-	
+
 	return flag;
 }
 
@@ -187,7 +187,7 @@ bool KAKS::ReadCalculateSeq(string filename) {
 * Function: checkValid
 * Input Parameter: string, string, string
 * Output: Check validity of pairwise sequences
-* Return Value: True if succeed, otherwise false. 
+* Return Value: True if succeed, otherwise false.
 ***************************************************/
 bool KAKS::checkValid(string name, string str1, string str2) {
 	bool flag = true;
@@ -199,16 +199,16 @@ bool KAKS::checkValid(string name, string str1, string str2) {
 			cerr<<endl<<"Error. The size of two sequences in "<<"'"<<name<<"' is not equal."<<endl;
 			throw 1;
 		}
-		
+
 		//Delete gap and stop codon
 		bool found;
 		int j;
-		for(i=0; i<str1.length(); i+=3) {			
+		for(i=0; i<str1.length(); i+=3) {
 			for(found=false, j=0; j<3 && !found; j++) {
 				if (str1[j+i]=='-' || str2[j+i]=='-') {
 					found = true;
 				}
-				str1[i+j] = toupper(str1[i+j]);		
+				str1[i+j] = toupper(str1[i+j]);
 				str2[i+j] = toupper(str2[i+j]);
 				if (convertChar(str1[i+j])==-1 || convertChar(str2[i+j])==-1) {
 					found = true;
@@ -225,7 +225,7 @@ bool KAKS::checkValid(string name, string str1, string str2) {
 				i -= 3;
 			}
 		}
-		
+
 		//pass value into private variables
 		seq1 = str1;
 		seq2 = str2;
@@ -236,7 +236,7 @@ bool KAKS::checkValid(string name, string str1, string str2) {
 	catch (...) {
 		flag = false;
 	}
-	
+
 	return flag;
 }
 
@@ -244,10 +244,10 @@ bool KAKS::checkValid(string name, string str1, string str2) {
 * Function: Run
 * Input Parameter: int, const char* []
 * Output: Calculate Ka/Ks and output.
-* Return Value: void 
+* Return Value: void
 ***************************************************/
 bool KAKS::Run(int argc, const char* argv[]) {
-	
+
 	bool flag=true;
 
 	try {
@@ -268,20 +268,20 @@ bool KAKS::Run(int argc, const char* argv[]) {
 		if(!writeFile(detail_filename, (getTitleInfo()+details).c_str())) {
 			throw 1;
 		}
-			
+
 		//Time used for running
 		time_t t = time(NULL)-time_start;
-		int h=t/3600, m=(t%3600)/60, s=t-(t/60)*60;		
-		
+		int h=t/3600, m=(t%3600)/60, s=t-(t/60)*60;
+
 		//Print on display
 		cerr<<"Mission accomplished. (Time elapsed: ";
 		if(h)  cerr<<h<<":"<<m<<":"<<s<<")"<<endl;
-		else   cerr<<m<<":"<<s<<")"<<endl;		
+		else   cerr<<m<<":"<<s<<")"<<endl;
 	}
 	catch (...) {
-		flag = false;		
+		flag = false;
 	}
-	
+
 	return flag;
 }
 
@@ -289,22 +289,22 @@ bool KAKS::Run(int argc, const char* argv[]) {
 * Function: parseParameter
 * Input Parameter: int, const char* []
 * Output: Parse the input parameters
-* Return Value: bool 
+* Return Value: bool
 ***************************************************/
 bool KAKS::parseParameter(int argc, const char* argv[]) {
-	
+
 	bool flag = true;
 	int i;
 	string temp;
-	
+
 	try {
-	
+
 		//No parameter
 		// if (argc==1) {
 		// 	if (seq_filename=="") throw 1;
 		// 	//else for only one parameter - seq_filename
 		// }
-		// else 
+		// else
         // if (argc==2) {//help information
         //     temp=argv[1];
 			// if(temp=="-H"||temp=="-h") {
@@ -315,19 +315,19 @@ bool KAKS::parseParameter(int argc, const char* argv[]) {
 			// 	throw 1;
 			// }
 		// }
-		// else {			
+		// else {
 			//parse parameters
 			int inputflag=0, outputflag=0, codeflag=0;
 			for (i=1; i<argc; i++) {
-				
+
 				temp = stringtoUpper(argv[i]);
 				//Input axt file
 				if (temp=="-I") {
 					if ((i+1)<argc && inputflag==0) {
-						seq_filename = argv[++i];						
+						seq_filename = argv[++i];
 						inputflag++;
 					}
-					else {					
+					else {
 						throw 1;
 					}
 				}
@@ -345,7 +345,7 @@ bool KAKS::parseParameter(int argc, const char* argv[]) {
 				else if (temp=="-C") {
 					if ((i+1)<argc && codeflag==0) {
 						genetic_code = CONVERT<int>(argv[++i]);
-						if (genetic_code<1 || genetic_code>NCODE || strlen(transl_table[2*(genetic_code-1)])<1) 
+						if (genetic_code<1 || genetic_code>NCODE || strlen(transl_table[2*(genetic_code-1)])<1)
 							throw 1;
 						codeflag++;
 					}
@@ -363,21 +363,27 @@ bool KAKS::parseParameter(int argc, const char* argv[]) {
 				else if (temp=="-M") {
 					if ((i+1)>argc) throw 1;
 					temp = stringtoUpper(argv[++i]);
-					if (temp=="NONE")     none = true;
-					else if(temp=="NG")   ng86 = true;
-					else if(temp=="LWL")  lwl85 = true;
-					else if(temp=="LPB")  lpb93 = true;
-					else if(temp=="MLPB") mlpb93 = true;
-					else if(temp=="MLWL") mlwl85 = true;
-					else if(temp=="GY")   gy94 = true;
-					else if(temp=="YN")	  yn00 = true;
-					else if(temp=="MYN")  myn = true;
-					else if(temp=="MS")   ms = true;
-					else if(temp=="MA")   ma = true;
-					else if(temp=="ALL")  {
-						ng86 = lpb93 = lwl85 = mlwl85 = mlpb93 = gy94 = yn00 = myn = ms = ma = true;
+					std::vector<std::string> v;
+					SplitString(temp, v, ",");
+					vector<string>::iterator t;
+					for(t=v.begin(); t!=v.end(); t++) {
+						if (*t=="NONE")     none = true;
+						else if(*t=="NG")   ng86 = true;
+						else if(*t=="LWL")  lwl85 = true;
+						else if(*t=="LPB")  lpb93 = true;
+						else if(*t=="MLPB") mlpb93 = true;
+						else if(*t=="MLWL") mlwl85 = true;
+						else if(*t=="GY")   gy94 = true;
+						else if(*t=="YN")	  yn00 = true;
+						else if(*t=="MYN")  myn = true;
+						else if(*t=="MS")   ms = true;
+						else if(*t=="MA")   ma = true;
+						else if(*t=="ALL")  {
+							ng86 = lpb93 = lwl85 = mlwl85 = mlpb93 = gy94 = yn00 = myn = ms = ma = true;
+						}
+						else throw 1;
 					}
-					else throw 1;
+
 				}
 				else throw 1;
 			}
@@ -388,18 +394,33 @@ bool KAKS::parseParameter(int argc, const char* argv[]) {
 			//Default: use ma to to calculate Ka and Ks
 			if (!(none+ng86+lpb93+lwl85+mlwl85+mlpb93+gy94+yn00+myn+ms+ma)) {
 				ma = true;
-			}			
+			}
 		// }
 	}
-	catch (...) {		
+	catch (...) {
 		cerr<<"Input parameter(s) error."<<endl;
 		cerr<<"For help information: Kaks_Calculator -h"<<endl;
 		flag = false;
 	}
-	
+
 	return flag;
 }
 
+void KAKS::SplitString(const std::string& s, std::vector<std::string>& v, const std::string& c)
+{
+  std::string::size_type pos1, pos2;
+  pos2 = s.find(c);
+  pos1 = 0;
+  while(std::string::npos != pos2)
+  {
+    v.push_back(s.substr(pos1, pos2-pos1));
+
+    pos1 = pos2 + c.size();
+    pos2 = s.find(c, pos1);
+  }
+  if(pos1 != s.length())
+    v.push_back(s.substr(pos1));
+}
 
 /*******************************************************
 * Function: Calculate
@@ -407,7 +428,7 @@ bool KAKS::parseParameter(int argc, const char* argv[]) {
 * Output: Calculate kaks and output results.
 * Return Value: void
 *
-* Note: 
+* Note:
 ********************************************************/
 bool KAKS::calculateKaKs() {
 
@@ -420,13 +441,13 @@ bool KAKS::calculateKaKs() {
 		if (ng86)   start_NG86();
 		if (lwl85)  start_LWL85();
 		if (mlwl85) start_MLWL85();
-		if (lpb93)  start_LPB93();	
+		if (lpb93)  start_LPB93();
 		if (mlpb93) start_MLPB93();
 		if (gy94)	start_GY94();
 		if (yn00)   start_YN00();
 		if (myn)	start_MYN();
 		if (ms||ma)	start_MSMA();
-		
+
 		result4Win += result;
 		//Write into the file
 		// if (output_filename.length()>0 && os.is_open()) {
@@ -445,42 +466,42 @@ bool KAKS::calculateKaKs() {
 
 //NONE: NG without correction for multiple substitution
 void KAKS::start_NONE() {
-	
+
 	NONE zz;
 	result += zz.Run(seq1, seq2);
 }
 
 //NG
 void KAKS::start_NG86() {
-	
+
 	NG86 zz;
 	result += zz.Run(seq1, seq2);
 }
 
 //LWL
 void KAKS::start_LWL85() {
-	
+
 	LWL85 zz;
 	result += zz.Run(seq1, seq2);
 }
 
 //MLWL
 void KAKS::start_MLWL85() {
-	
-	MLWL85 zz;	
+
+	MLWL85 zz;
 	result += zz.Run(seq1, seq2);
 }
 
 //LPB
 void KAKS::start_LPB93() {
-	
+
 	LPB93 zz;
 	result += zz.Run(seq1, seq2);
 }
 
 //MLPB
 void KAKS::start_MLPB93() {
-	
+
 	MLPB93 zz;
 	result += zz.Run(seq1, seq2);
 }
@@ -489,19 +510,19 @@ void KAKS::start_MLPB93() {
 void KAKS::start_GY94() {
 
 	GY94 zz("HKY");
-	result += zz.Run(seq1.c_str(), seq2.c_str());	
+	result += zz.Run(seq1.c_str(), seq2.c_str());
 }
 
 //YN
 void KAKS::start_YN00() {
-	
+
 	YN00 zz;
 	result += zz.Run(seq1, seq2);
 }
 
 //MYN
 void KAKS::start_MYN() {
-	
+
 	MYN zz;
 	result += zz.Run(seq1, seq2);
 }
@@ -509,7 +530,7 @@ void KAKS::start_MYN() {
 /************************************************
 * Function: start_MSMA
 * Input Parameter: void
-* Output: Calculate Ka and Ks using the method of 
+* Output: Calculate Ka and Ks using the method of
 		  model selection or model averaging.
 * Return Value: void
 *************************************************/
@@ -523,7 +544,7 @@ void KAKS::start_MSMA() {
 	if (ms) {
 		result += tmp;
 	}
-	
+
 	//Model Averaging
 	if (ma) {
 		MA zz2;
@@ -533,9 +554,9 @@ void KAKS::start_MSMA() {
 
 /************************************************
 * Function: showParaInfo
-* Input Parameter: 
+* Input Parameter:
 * Output: print on display
-* Return Value: 
+* Return Value:
 *************************************************/
 void KAKS::showParaInfo() {
 
@@ -544,11 +565,11 @@ void KAKS::showParaInfo() {
 	if (ng86)   cerr<<"NG"<<" ";
 	if (lwl85)  cerr<<"LWL"<<" ";
 	if (mlwl85) cerr<<"MLWL"<<" ";
-	if (lpb93)  cerr<<"LPB"<<" ";	
+	if (lpb93)  cerr<<"LPB"<<" ";
 	if (mlpb93) cerr<<"MLPB"<<" ";
 	if (gy94)   cerr<<"GY"<<" ";
 	if (yn00)   cerr<<"YN"<<" ";
-	if (myn)    cerr<<"MYN"<<" ";	
+	if (myn)    cerr<<"MYN"<<" ";
 	if (ms) 	cerr<<"MS"<<" ";
 	if (ma) 	cerr<<"MA";
 
@@ -558,7 +579,7 @@ void KAKS::showParaInfo() {
 
 /************************************************
 * Function: getTitleInfo
-* Input Parameter: 
+* Input Parameter:
 * Output: get title information of outputing file
 * Return Value: string
 *************************************************/
@@ -566,7 +587,7 @@ string KAKS::getTitleInfo() {
 
 	string title = "";
 	int i=0;
-	
+
 	if (titleInfo.size()>0) {
 		//Add "\t" to items except the last one
 		for (; i<titleInfo.size()-1; i++) addString(title, titleInfo[i]);
@@ -579,7 +600,7 @@ string KAKS::getTitleInfo() {
 
 /***********************************
 * Function: helpInfo
-* Input Parameter: 
+* Input Parameter:
 * Output: Display help infomation.
 * Return Value: void
 ************************************/
@@ -598,7 +619,7 @@ void KAKS::helpInfo() {
 	cerr<<"\t-i\tAxt file name for calculating Ka & Ks."<<endl;
 	cerr<<"\t-o\tOutput file name for saving results."<<endl;
 	cerr<<"\t-c\tGenetic code table (Default = 1-Standard Code)."<<endl;
-	for(i=0,j=0; i<NNCODE; i+=2) { 
+	for(i=0,j=0; i<NNCODE; i+=2) {
 		if(strlen(transl_table[i])>0) {
 			cerr<<"\t\t  "<<transl_table[i+1]<<"\t";
 			j++;
@@ -610,7 +631,7 @@ void KAKS::helpInfo() {
 	}
 	cerr<<endl;
 	cerr<<"\t\t  (More information about the Genetic Codes: http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi?mode=c)"<<endl;
-	
+
 	cerr<<"\t-m\tMethods for estimating Ka and Ks and theirs references(Default = MA)"<<endl;
 	for (i=0; i<method_name.size(); i++) {
 		cerr<<"\t\t  "<<method_name[i].c_str();
@@ -625,10 +646,9 @@ void KAKS::helpInfo() {
 	cerr<<"\tKaKs_Calculator -i test.axt -o test.axt.kaks\t//use MA method based on a more suitable model and standard code"<<endl;
 	cerr<<"\tKaKs_Calculator -i test.axt -o test.axt.kaks -c 2\t//use MA method and vertebrate mitochondrial code"<<endl;
 	cerr<<"\tKaKs_Calculator -i test.axt -o test.axt.kaks -m LWL -m MYN\t//use LWL and MYN methods, and standard Code"<<endl;
-	
+
 	cerr<<endl;
 	cerr<<"For help information:	KaKs_Calculator -h"<<endl;
 	cerr<<"Please send bugs or advice to Zhang Zhang at zhangzhang@genomics.org.cn."<<endl;
 	cerr<<endl;
 }
-

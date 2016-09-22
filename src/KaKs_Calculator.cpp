@@ -11,9 +11,7 @@
 ****************************************************************/
 
 #include "KaKs.h"
-
 int main(int argc, const char* argv[]) {
-
 	try {
 		KAKS kk;
 		if(!kk.Run(argc, argv)) throw 1;
@@ -23,6 +21,5 @@ int main(int argc, const char* argv[]) {
 	}
 	return 0;
 }
-
 
 

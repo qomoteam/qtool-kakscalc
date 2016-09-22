@@ -1,5 +1,5 @@
 <tools>
-	<tool id='kakscalc' name="Ka/Ks" category="Evolution" contributors='Qomo team'>
+	<tool id='kakscalc' name="Ka/Ks" category="Evolution" contributors='@qomoteam'>
 		<command>#{HADOOP_BIN} jar #{STREAMING_JAR} -Dstream.map.input.ignoreKey=true -Dmapred.reduce.tasks=0 -libjars #{QOMO_COMMON} -files KaKs_Calculator -inputformat qomo.common.io.AXTInputFormat -input #{input} -output #{output} -mapper "KaKs_Calculator -m #{model}"</command>
 		<params>
 			<input name='input' label="Alignment" format="axt" />
